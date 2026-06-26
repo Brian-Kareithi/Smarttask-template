@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 
 class LiquidBlob extends StatefulWidget {
@@ -75,9 +76,9 @@ class _BlobPainter extends CustomPainter {
       final y = size.height * 0.7 +
           (size.height * 0.15) *
               (reverse ? 1 : -1) *
-              (0.5 * (i / size.width) +
-                  0.3 * (i / size.width) * (wave * 0.5).sin() +
-                  0.2 * (i / size.width * 3 + reverseWave).sin());
+               (0.5 * (i / size.width) +
+                  0.3 * (i / size.width) * sin(wave * 0.5) +
+                  0.2 * sin(i / size.width * 3 + reverseWave));
       path.lineTo(i, y);
     }
 
@@ -105,9 +106,9 @@ class _BlobPainter extends CustomPainter {
       final y = size.height * 0.6 +
           (size.height * 0.12) *
               (reverse ? -1 : 1) *
-              (0.4 * (i / size.width) +
-                  0.35 * (i / size.width * 2 + wave).sin() +
-                  0.25 * (i / size.width * 4 - reverseWave).cos());
+               (0.4 * (i / size.width) +
+                  0.35 * sin(i / size.width * 2 + wave) +
+                  0.25 * cos(i / size.width * 4 - reverseWave));
       path2.lineTo(i, y);
     }
 
