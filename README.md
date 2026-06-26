@@ -47,6 +47,16 @@ flutter run
 flutter run -d chrome
 ```
 
+### Windows Setup
+
+If you encounter a symlink error (`Building with plugins requires symlink support`):
+
+1. Enable **Developer Mode** in Windows Settings:
+   - Run `start ms-settings:developers`
+   - Toggle **Developer Mode** ON
+2. Re-run `flutter pub get`
+3. Run the app again
+
 ## Project Structure
 
 ```
