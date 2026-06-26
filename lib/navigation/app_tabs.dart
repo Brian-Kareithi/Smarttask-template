@@ -18,22 +18,29 @@ class AppTabs extends StatelessWidget {
   Widget build(BuildContext context) {
     final index = _currentIndex(context);
     final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
       body: child,
       bottomNavigationBar: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         decoration: BoxDecoration(
-          color: theme.brightness == Brightness.light
-              ? Colors.white
-              : const Color(0xFF1A1F2E),
+          color: isDark ? const Color(0xFF1A1F2E) : Colors.white,
           borderRadius: BorderRadius.circular(28),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
-              blurRadius: 20,
+              color: isDark
+                  ? Colors.black.withValues(alpha: 0.4)
+                  : Colors.black.withValues(alpha: 0.1),
+              blurRadius: isDark ? 24 : 20,
               offset: const Offset(0, 4),
             ),
+            if (isDark)
+              BoxShadow(
+                color: theme.colorScheme.primary.withValues(alpha: 0.05),
+                blurRadius: 8,
+                offset: const Offset(0, 0),
+              ),
           ],
         ),
         child: SafeArea(
@@ -86,15 +93,19 @@ class _TabItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final primary = theme.colorScheme.primary;
+
     return GestureDetector(
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeOutCubic,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         decoration: BoxDecoration(
           color: isSelected
-              ? theme.colorScheme.primary.withValues(alpha: 0.15)
+              ? primary.withValues(alpha: isDark ? 0.2 : 0.15)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(20),
         ),
@@ -104,8 +115,8 @@ class _TabItem extends StatelessWidget {
             Icon(
               icon,
               color: isSelected
-                  ? theme.colorScheme.primary
-                  : theme.textTheme.bodyMedium?.color,
+                  ? primary
+                  : (isDark ? const Color(0xFF8E8E93) : const Color(0xFF8E8E93)),
               size: 22,
             ),
             if (isSelected) ...[
@@ -113,7 +124,7 @@ class _TabItem extends StatelessWidget {
               Text(
                 label,
                 style: TextStyle(
-                  color: theme.colorScheme.primary,
+                  color: primary,
                   fontWeight: FontWeight.w600,
                   fontSize: 13,
                 ),
